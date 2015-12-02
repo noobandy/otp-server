@@ -1,0 +1,21 @@
+{
+	"OtpApp.appName" : "Otp Server",
+	"OtpApp.about" : "About",
+	"OtpApp.contact" : "Contact",
+	"OtpApp.login" : "Login",
+	"OtpApp.username" : "User name",
+	"OtpApp.password" : "Password",
+	"OtpApp.repeatPassword" : "Repeat above password",
+	"OtpApp.email" : "Email Address",
+	"OtpApp.blogName" : "Blog name",
+	"OtpApp.clear" : "Clear",
+	"OtpApp.submit" : "Submit",
+	"OtpApp.contactUs" : "Contact Us",
+	"OtpApp.firstName" : "First Name",
+	"OtpApp.lastName" : "Last Name",
+	"OtpApp.phone" : "Phone",
+	"OtpApp.contactUsMessagePlaceHolder" : "Enter your massage for us here. We will get back to you within 2 business days.",
+	"OtpApp.createAccount" : "Create Account",
+	"OtpApp.footer" : "Footer"
+
+}

@@ -1,0 +1,46 @@
+extends layout
+block header
+	link(rel="stylesheet" href="/public/otp-app/stylesheets/bootstrap-paper.min.css")
+	link(rel="stylesheet" href="/public/otp-app/stylesheets/style.css")
+	script(type="text/javascript" src="/public/otp-app/javascripts/app.js")
+	script(type="text/javascript" src="/public/otp-app/javascripts/states.js")
+	script(type="text/javascript" src="/public/otp-app/javascripts/controllers.js")
+	script(type="text/javascript" src="/public/otp-app/javascripts/services.js")
+	script(type="text/javascript" src="/public/otp-app/javascripts/factories.js")
+	script(type="text/javascript" src="/public/otp-app/javascripts/directives.js")
+
+block content
+	div(data-ng-app="otpApp")
+		nav(class="navbar navbar-default navbar-fixed-top" role="navigation")
+			div(class="container")
+				div(class="navbar-header")
+					button(type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1")
+						span(class="sr-only") Toggle navigation
+						span(class="icon-bar")
+						span(class="icon-bar")
+						span(class="icon-bar")
+					a(class="navbar-brand" data-ui-sref="home" data-translate="OtpApp.appName")
+				div(class="collapse navbar-collapse" id="bs-example-navbar-collapse-1")
+					ul(class="nav navbar-nav")
+						li
+							a(data-ui-sref="about" data-translate="OtpApp.about")
+						li
+							a(data-ui-sref="contact" data-translate="OtpApp.contact")
+					form(class="navbar-form navbar-right" role="form")
+						div(class="input-group")
+							span(class="input-group-addon")
+								i(class="fa fa-user")
+							input(id="email" type="text" class="form-control" name="username" value="" placeholder="{{'OtpApp.username' | translate}}")
+						div(class="input-group")
+							span(class="input-group-addon")
+								i(class="fa fa-lock")
+							input(type="password" class="form-control" name="password" value="" placeholder="{{'OtpApp.password' | translate}}")
+
+						button(type="submit" class="btn btn-primary" data-translate="OtpApp.login")
+
+		div(class="container" data-ui-view="")
+
+		footer(class="footer")
+			div(class="container")
+				p(class="text-muted" data-translate="OtpApp.footer")
+                   
