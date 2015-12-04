@@ -4,49 +4,49 @@
 	</div>
 
 	<div class="col-md-5">
-		<form class="form-horizontal">
+		<form novalidate name="registrationForm" class="form-horizontal">
 			<fieldset>
 				<legend data-translate="OtpApp.createAccount"></legend>
 
-				<div class="form-group">
+				<div data-ng-class="{'has-error' : (registrationForm.$submitted || registrationForm.emailId.$touched) && (registrationForm.emailId.$error.required || registrationForm.emailId.$error.email)}" class="form-group">
 					<label class="control-label col-md-2">
 						<i class="fa fa-lg fa-envelope-o"></i>
 					</label>
 					<div class="col-md-10">
-						<input class="form-control" placeholder="{{'OtpApp.email' | translate}}">
+						<input type="email" name="emailId" data-ng-model="registrationModel.emailId" required class="form-control" placeholder="{{'OtpApp.email' | translate}}">
+						<span class="help-block" data-translate="OtpApp.Help.emailId"></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div data-ng-class="{'has-error' : (registrationForm.$submitted || registrationForm.username.$touched) && (registrationForm.username.$error.required || registrationForm.username.$error.pattern)}" class="form-group">
 					<label class="control-label col-md-2">
 						<i class="fa fa-lg fa-user"></i>
 					</label>
 					<div class="col-md-10">
-						<input class="form-control" placeholder="{{'OtpApp.username' | translate}}">
+						<input type="text" name="username" data-ng-model="registrationModel.username" required pattern="[a-zA-Z0-9_]{6,}" class="form-control" placeholder="{{'OtpApp.username' | translate}}">
+						<span class="help-block" data-translate="OtpApp.Help.username"></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div data-ng-class="{'has-error' : (registrationForm.$submitted || registrationForm.password.$touched) && (registrationForm.password.$error.required || registrationForm.password.$error.pattern)}" class="form-group">
 					<label class="control-label col-md-2">
 						<i class="fa fa-lg fa-lock"></i>
 					</label>
 					<div class="col-md-10">
-						<input type="password" class="form-control" placeholder="{{'OtpApp.password' | translate}}">
+						<input type="password" name="password" data-ng-model="registrationModel.password" required pattern="^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$" class="form-control" placeholder="{{'OtpApp.password' | translate}}">
+						<span class="help-block" data-translate="OtpApp.Help.password"></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div data-ng-class="{'has-error' : (registrationForm.$submitted || registrationForm.repeatPassword.$touched) && (registrationForm.repeatPassword.$error.required)}" class="form-group">
 					<label class="control-label col-md-2">
 						<i class="fa fa-lg fa-lock"></i>
 					</label>
 					<div class="col-md-10">
-						<input type="password" class="form-control" placeholder="{{'OtpApp.repeatPassword' | translate}}">
+						<input type="password" name="repeatPassword" data-ng-model="registrationModel.repeatPassword" required class="form-control" placeholder="{{'OtpApp.repeatPassword' | translate}}">
+						<span class="help-block" data-translate="OtpApp.Help.repeatPassword"></span>
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-md-10 col-md-offset-2">
-						
-						<button class="btn btn-default" type="reset" data-translate="OtpApp.clear">
-						</button>
-							
-						<button class="btn btn-primary" type="submit" data-translate="OtpApp.createAccount">
+					<div class="col-md-10 col-md-offset-2">						
+						<button data-ng-click="registrationForm.$valid && register" class="btn btn-primary" type="submit" data-translate="OtpApp.createAccount">
 							
 						</button>	
 							

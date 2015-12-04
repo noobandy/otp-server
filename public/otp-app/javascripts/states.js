@@ -10,16 +10,33 @@ angular.module("otpApp").config(["$stateProvider", "$urlRouterProvider",
 		name : "home",
 		url : "/",
 		templateUrl : "/public/otp-app/templates/home.html",
-		controller : "HomeController"
+		controller : "HomeController",
+		data : {
+			secure : false
+		}
 	}).state({
 		name : "about",
 		url : "/about",
 		templateUrl : "/public/otp-app/templates/about.html",
-		controller : "AboutController"
+		controller : "AboutController",
+		data : {
+			secure : false
+		}
 	}).state({
 		name : "contact",
 		url : "/contact",
 		templateUrl : "/public/otp-app/templates/contact.html",
-		controller : "ContactController"
+		controller : "ContactController",
+		data : {
+			secure : false
+		}
+	}).state({
+		name : "dashboard",
+		url : "/dashboard",
+		templateUrl : "/public/otp-app/templates/dashboard.html",
+		controller : "DashboardController",
+		data : {
+			secure : true
+		}
 	});
 }]);

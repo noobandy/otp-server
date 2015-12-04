@@ -28,3 +28,8 @@ otpApp.config(['$translateProvider', function ($translateProvider) {
 	$translateProvider.preferredLanguage('en');
 	$translateProvider.fallbackLanguage('en');
 }]);
+
+otpApp.run([
+	function() {
+		console.log("running");
+	}]);

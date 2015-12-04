@@ -11,7 +11,7 @@ block header
 
 block content
 	div(data-ng-app="otpApp")
-		nav(class="navbar navbar-default navbar-fixed-top" role="navigation")
+		nav(class="navbar navbar-default navbar-fixed-top" role="navigation" data-ng-controller="NavbarController")
 			div(class="container")
 				div(class="navbar-header")
 					button(type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1")
@@ -26,17 +26,17 @@ block content
 							a(data-ui-sref="about" data-translate="OtpApp.about")
 						li
 							a(data-ui-sref="contact" data-translate="OtpApp.contact")
-					form(class="navbar-form navbar-right" role="form")
-						div(class="input-group")
+					form(class="navbar-form navbar-right" novalidate="true" name="loginForm")
+						div(class="input-group" data-ng-class="{'has-error' : (loginForm.$submitted || loginForm.username.$touched) && (loginForm.username.$error.required || loginForm.wrongCredentials)}")
 							span(class="input-group-addon")
 								i(class="fa fa-user")
-							input(id="email" type="text" class="form-control" name="username" value="" placeholder="{{'OtpApp.username' | translate}}")
-						div(class="input-group")
+							input( required="true" type="text" class="form-control" name="username" data-ng-model="loginModel.username" placeholder="{{'OtpApp.username' | translate}}")
+						div(class="input-group" data-ng-class="{'has-error' : (loginForm.$submitted || loginForm.password.$touched) && (loginForm.password.$error.required || loginForm.wrongCredentials)}")
 							span(class="input-group-addon")
 								i(class="fa fa-lock")
-							input(type="password" class="form-control" name="password" value="" placeholder="{{'OtpApp.password' | translate}}")
+							input(required="true" type="password" class="form-control" name="password" data-ng-model="loginModel.password" placeholder="{{'OtpApp.password' | translate}}")
 
-						button(type="submit" class="btn btn-primary" data-translate="OtpApp.login")
+						button(type="submit" data-ng-click="loginForm.$valid && login()" class="btn btn-primary" data-translate="OtpApp.login")
 
 		div(class="container" data-ui-view="")
 

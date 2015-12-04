@@ -35,7 +35,6 @@ router.post("/users/{username}/changepassword", function(req, res, next) {
 		if(user !== null) {
 			user.changePassword(req.body.oldPassoword, req.body.newPassword, function(err, changed) {
 				if(err) return next(err);
-
 				res.json({success : changed});
 
 			});
@@ -55,6 +54,22 @@ router.post("/users/{username}/checkpassword", function(req, res, next) {
 
 			});
 		}
+	});
+});
+
+router.post("/users/{username}/resetpassword", function(req, res, next) {
+	var username = req.params.username;
+	var key = req.body.key;
+	var newPassword = req.body.newPassword;
+
+	User.findByUsername(username, function(err, user) {
+		if(err) return next(err);
+		user.resetPasword(key, newPassword, function(err, changed) {
+			if(err) return next(err);
+
+			res.json({success : changed});
+
+		});
 	});
 });
 

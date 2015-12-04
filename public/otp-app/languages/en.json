@@ -16,6 +16,10 @@
 	"OtpApp.phone" : "Phone",
 	"OtpApp.contactUsMessagePlaceHolder" : "Enter your massage for us here. We will get back to you within 2 business days.",
 	"OtpApp.createAccount" : "Create Account",
-	"OtpApp.footer" : "Footer"
+	"OtpApp.footer" : "Footer",
+	"OtpApp.Help.username" : "Username must be at least 6 characters long",
+	"OtpApp.Help.password" : "Password must be at least 8 characters long and must include at one number, one uppercase letter, one special symbol",
+	"OtpApp.Help.repeatPassword" : "must be same as password.",
+	"OtpApp.Help.emailId" : "Must be a valid email id"
 
 }
