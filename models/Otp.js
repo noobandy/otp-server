@@ -1,8 +1,6 @@
 var mongoose = require("mongoose"),
 	OtpSchema,
-	Otp,
-	path = require("path"),
-	otpGenerator = require(path.join(__dirname, "./OtpGenerator"));
+	Otp;
 
 OtpSchema = mongoose.Schema({
 	application : {
@@ -26,11 +24,6 @@ OtpSchema = mongoose.Schema({
 	}
 });
 
-
-OtpSchema.pre("save", function(next) {
-	this.key = otpGenerator(6);
-	next();
-});
 
 OtpSchema.statics.findByRequestId = function(requestId, cb) {
 	Otp.findById(requestId, function(err, otp) {

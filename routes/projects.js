@@ -25,7 +25,7 @@ router.post('/projects', function(req, res, next) {
 });
 
 
-router.get("/projects/{id}", function(req, res, next) {
+router.get("/projects/:id", function(req, res, next) {
 	Project.findById(req.params.id, function(err, project) {
 		if(err) return next(err);
 

@@ -31,6 +31,42 @@ angular.module("otpApp").config(["$stateProvider", "$urlRouterProvider",
 			secure : false
 		}
 	}).state({
+		name : "verify emailId",
+		url : "/verifyemaill/:username/:key",
+		controller : "VerifyEmailController",
+		resolve : {
+			verified : ["$q", "User","$stateParams", function($q, User, $stateParams) {
+				var promise = $q.defer();
+				User.verifyEmailId($stateParams.username, $stateParams.key).
+				then(function(data) {
+					promise.resolve(data.success);
+				}, function(error) {
+					promise.reject(error);
+				});
+
+				return promise;
+			}]
+		},
+		data : {
+			secure : false
+		}
+	}).state({
+		name : "forgot password",
+		url : "/forgotpassword",
+		templateUrl : "/public/otp-app/templates/forgotpassword.html",
+		controller : "ForgotPasswordController",
+		data : {
+			secure : false
+		}
+	}).state({
+		name : "reset password",
+		url : "/resetpassword/:username/:key",
+		templateUrl : "/public/otp-app/templates/resetpassword.html",
+		controller : "ResetPasswordController",
+		data : {
+			secure : false
+		}
+	}).state({
 		name : "dashboard",
 		url : "/dashboard",
 		templateUrl : "/public/otp-app/templates/dashboard.html",

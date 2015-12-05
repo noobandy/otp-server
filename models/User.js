@@ -9,7 +9,7 @@ var UserSchema = mongoose.Schema({
 	password : {
 		type : String,
 		required : true,
-		match : /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/,
+		match : /.{8,}/,
 		select : true
 	},
 	emailId : {
@@ -40,6 +40,7 @@ UserSchema.statics.findByUsername = function(username, cb) {
 		}
 	});
 };
+
 UserSchema.methods.checkPassword = function(password, cb) {
 	User.find({"username" : this.username}).exec(function(err, user) {
 		if(err) return cb(err);

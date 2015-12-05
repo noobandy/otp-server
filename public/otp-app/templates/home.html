@@ -4,7 +4,7 @@
 	</div>
 
 	<div class="col-md-5">
-		<form novalidate name="registrationForm" class="form-horizontal">
+		<form novalidate name="registrationForm" data-ng-submit="registrationForm.$valid && regisetr()" class="form-horizontal">
 			<fieldset>
 				<legend data-translate="OtpApp.createAccount"></legend>
 
@@ -26,12 +26,12 @@
 						<span class="help-block" data-translate="OtpApp.Help.username"></span>
 					</div>
 				</div>
-				<div data-ng-class="{'has-error' : (registrationForm.$submitted || registrationForm.password.$touched) && (registrationForm.password.$error.required || registrationForm.password.$error.pattern)}" class="form-group">
+				<div data-ng-class="{'has-error' : (registrationForm.$submitted || registrationForm.password.$touched) && (registrationForm.password.$error.required)}" class="form-group">
 					<label class="control-label col-md-2">
 						<i class="fa fa-lg fa-lock"></i>
 					</label>
 					<div class="col-md-10">
-						<input type="password" name="password" data-ng-model="registrationModel.password" required pattern="^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$" class="form-control" placeholder="{{'OtpApp.password' | translate}}">
+						<input type="password" name="password" data-ng-model="registrationModel.password" required class="form-control" placeholder="{{'OtpApp.password' | translate}}">
 						<span class="help-block" data-translate="OtpApp.Help.password"></span>
 					</div>
 				</div>
@@ -44,16 +44,16 @@
 						<span class="help-block" data-translate="OtpApp.Help.repeatPassword"></span>
 					</div>
 				</div>
-				<div class="form-group">
+			</fieldset>
+			<div class="form-group">
 					<div class="col-md-10 col-md-offset-2">						
-						<button data-ng-click="registrationForm.$valid && register" class="btn btn-primary" type="submit" data-translate="OtpApp.createAccount">
+						<button class="btn btn-primary" type="submit" data-translate="OtpApp.createAccount">
 							
 						</button>	
 							
 						
 					</div>
 				</div>
-			</fieldset>
 		</form>
 	</div>
 </div>

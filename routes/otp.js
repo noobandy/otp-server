@@ -1,15 +1,17 @@
 var express = require("express"),
 	router = express.Router(),
 	path = require("path"),
-	Otp = require(path.join(__dirname, "../models/Otp"));
+	Otp = require(path.join(__dirname, "../models/Otp")),
+	otpGenerator = require(path.join(__dirname, "../models/OtpGenerator"));
 
-router.post("/otp/{apiKey}/request", function(req, res, next) {
+router.post("/otp/:apiKey/request", function(req, res, next) {
 	var application = req.authenticatedApplication;
 
 	var otp = new Otp(req.body);
 
 	otp.application = application._id;
-
+	otp.key = otpGenerator(6);
+	
 	otp.save(function(err, otp) {
 		if(err) return next(err);
 
@@ -19,7 +21,7 @@ router.post("/otp/{apiKey}/request", function(req, res, next) {
 });
 
 
-router.post("/otp/{apiKey}/{requestId}/verify", function(req, res, next) {
+router.post("/otp/:apiKey/:requestId/verify", function(req, res, next) {
 	var otp = Otp.findByRequestId(req.params.requestId, function(err, otp) {
 		if(err) return next(err);
 

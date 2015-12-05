@@ -1,21 +1,27 @@
 var express = require('express'),
 	router = express.Router(),
 	path = require("path"),
-	User = require(path.join(__dirname, "../models/User"));
+	User = require(path.join(__dirname, "../models/User")),
+	randomKeyGenerator = require(path.join(__dirname, "../models/RandomKeyGenerator")),
+	emailHelper = require(path.join(__dirname, "../models/EmailHelper"));
 
 
 router.post('/users', function(req, res, next) {
 	var user = new User(req.body);
 
+	user.emailIdVerified = false;
+	user.emailIdVerificationKey = randomKeyGenerator(32);
+
+
 	user.save(function(err, user) {
 		if(err) return next(err);
-
+		emailHelper.sendVerificationEmail(user.username, user.emailIdVerificationKey);
 		res.json(user);
 	});
 });
 
 
-router.get("/users/{username}", function(req, res, next) {
+router.get("/users/:username", function(req, res, next) {
 	User.findByUsername(function(err, user) {
 		if(err) return next(err);
 
@@ -28,7 +34,7 @@ router.get("/users/{username}", function(req, res, next) {
 });
 
 
-router.post("/users/{username}/changepassword", function(req, res, next) {
+router.post("/users/:username/changepassword", function(req, res, next) {
 	User.findByUsername(req.params.username, function(err, user) {
 		if(err) return next(err);
 
@@ -42,7 +48,7 @@ router.post("/users/{username}/changepassword", function(req, res, next) {
 	});
 });
 
-router.post("/users/{username}/checkpassword", function(req, res, next) {
+router.post("/users/:username/checkpassword", function(req, res, next) {
 	User.findByUsername(req.params.username, function(err, user) {
 		if(err) return next(err);
 
@@ -57,7 +63,25 @@ router.post("/users/{username}/checkpassword", function(req, res, next) {
 	});
 });
 
-router.post("/users/{username}/resetpassword", function(req, res, next) {
+router.post("/users/:username/forgotpassword", function(req, res, next) {
+	var username = req.params.username;
+
+	User.findByUsername(username, function(err, user) {
+		if(err) return next(err);
+		user.passwordResetKey = randomKeyGenerator(32);
+		
+		emailHelper.sendPasswordResetEmail(username, key);
+
+		user.save(function(err, user) {
+			if(err) return next(err);
+
+			res.json({success : true});
+
+		});
+	});
+});
+
+router.post("/users/:username/resetpassword", function(req, res, next) {
 	var username = req.params.username;
 	var key = req.body.key;
 	var newPassword = req.body.newPassword;
@@ -72,5 +96,19 @@ router.post("/users/{username}/resetpassword", function(req, res, next) {
 		});
 	});
 });
+
+router.get('/users/:username/verifyemail', function(req, res, next) {
+	var username = req.params.username;
+	var key = req.body.key;
+
+	User.findByUsername(username, function(err, user) {
+		if(err) return next(err);
+		user.verifyEmailId(key, function(err, verified) {
+			if(err) return next(err);
+			res.json({success : emailIdVerified});
+		});
+	});
+});
+
 
 module.exports = router;
