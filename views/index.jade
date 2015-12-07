@@ -26,12 +26,20 @@ block content
 							a(data-ui-sref="about" data-translate="OtpApp.about")
 						li
 							a(data-ui-sref="contact" data-translate="OtpApp.contact")
-					form(class="navbar-form navbar-right" novalidate="true" name="loginForm")
-						div(class="input-group" data-ng-class="{'has-error' : (loginForm.$submitted || loginForm.username.$touched) && (loginForm.username.$error.required || loginForm.wrongCredentials)}")
+					ul( data-ng-if="authenticatedUser" class="nav navbar-nav navbar-right")
+						li(class="dropdown")
+							a(href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" data-ng-bind="authenticatedUser")  <span class="caret"></span>
+							ul(class="dropdown-menu")
+								li
+									a(href="#" data-ng-click="logout()" data-translate="OtpApp.logout")
+								li
+									a(data-ui-sref="change password" data-translate="OtpApp.changePassword")		
+					form(data-ng-if="!authenticatedUser" class="navbar-form navbar-right" novalidate="true" name="loginForm")
+						div(class="input-group" data-ng-class="{'has-error' : (loginForm.$submitted || loginForm.username.$touched) && (loginForm.username.$error.required || loginModel.wrongCredentials)}")
 							span(class="input-group-addon")
 								i(class="fa fa-user")
 							input( required="true" type="text" class="form-control" name="username" data-ng-model="loginModel.username" placeholder="{{'OtpApp.username' | translate}}")
-						div(class="input-group" data-ng-class="{'has-error' : (loginForm.$submitted || loginForm.password.$touched) && (loginForm.password.$error.required || loginForm.wrongCredentials)}")
+						div(class="input-group" data-ng-class="{'has-error' : (loginForm.$submitted || loginForm.password.$touched) && (loginForm.password.$error.required || loginModel.wrongCredentials)}")
 							span(class="input-group-addon")
 								i(class="fa fa-lock")
 							input(required="true" type="password" class="form-control" name="password" data-ng-model="loginModel.password" placeholder="{{'OtpApp.password' | translate}}")

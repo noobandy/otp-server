@@ -29,23 +29,17 @@ var UserSchema = mongoose.Schema({
 });
 
 UserSchema.statics.findByUsername = function(username, cb) {
-	this.find({"username" : username}).select("-password").exec( function(err, docs) {
+	this.findOne({"username" : username}).select("-password").exec( function(err, user) {
 
 		if(err) return cb(err);
-		
-		if(docs.length > 0) {
-			return cb(null, docs[0]);
-		} else {
-			return cb(null, null);
-		}
+
+		return cb(null, user);
 	});
 };
 
 UserSchema.methods.checkPassword = function(password, cb) {
-	User.find({"username" : this.username}).exec(function(err, user) {
+	User.findOne({"username" : this.username}).exec(function(err, user) {
 		if(err) return cb(err);
-
-		//console.log(user);
 
 		return cb(null, user.password === password);
 	});

@@ -1,28 +1,50 @@
 "use strict";
 var otpApp = angular.module("otpApp");
 
-otpApp.service("AuthenticationManager", ["$http",
-	function($http){
+otpApp.service("AuthenticationManager", ["$http", "$rootScope", "localStorageService",
+	"$base64","$q",
+	function($http, $rootScope, localStorageService, $base64, $q){
 		var basePath = "http://localhost:3000/";
 
 		return {
 			authenticate : function(username, password) {
-				return $http({
+				var defered = $q.defer();
+
+				$http({
 					url : basePath + "users/"+username+"/checkpassword",
 					method : "POST",
 					data : {
 						password : password
 					}
+				}).then(function(result) {
+					if(result.data.success) {
+						localStorageService.set("authenticatedUser", username);
+						var credentials = $base64.encode(username + ":" + password);
+						localStorageService.set("credentials", credentials);
+						
+						$rootScope.authenticatedUser = username;
+					}
+					defered.resolve(result);
+				}, function(error) {
+					defered.reject(error);
 				});
+
+				return defered.promise;
 			},
 			isAuthenticated : function() {
-
+				var authenticatedUser = localStorageService.get("authenticatedUser");
+				return  authenticatedUser !== null;
 			},
 			getAuthenticatedUser : function() {
-
+				return localStorageService.get("authenticatedUser");
+				
 			},
 			logout : function() {
-
+				localStorageService.remove("authenticatedUser");
+				
+				localStorageService.remove("credentials");
+						
+				$rootScope.authenticatedUser = null;
 			}
 		}
 	}]);

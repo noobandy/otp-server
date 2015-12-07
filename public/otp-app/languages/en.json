@@ -3,6 +3,8 @@
 	"OtpApp.about" : "About",
 	"OtpApp.contact" : "Contact",
 	"OtpApp.login" : "Login",
+	"OtpApp.logout" : "Logout",
+	"OtpApp.changePassword" : "Change password",
 	"OtpApp.username" : "User name",
 	"OtpApp.password" : "Password",
 	"OtpApp.repeatPassword" : "Repeat above password",

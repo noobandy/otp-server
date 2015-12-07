@@ -14,12 +14,25 @@ otpApp.controller("NavbarController",["$scope", "AuthenticationManager", "$state
 
 		$scope.login = function() {
 			AuthenticationManager.authenticate($scope.loginModel.username, 
-				$scope.loginModel.password).then(function(success) {
+					$scope.loginModel.password).then(function(success) {
+					$scope.loginModel = {
+								username : "",
+								password : "",
+								wrongCredentials : false
+							};
 					$state.go("dashboard");
+
 				}, function(error) {
 					$scope.loginModel.wrongCredentials = true;
 				});
 		};
+
+
+		$scope.logout = function() {
+			AuthenticationManager.logout();
+			$state.go("home");
+		};
+
 	}]);
 
 

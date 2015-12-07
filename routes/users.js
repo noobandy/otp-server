@@ -59,6 +59,8 @@ router.post("/users/:username/checkpassword", function(req, res, next) {
 				res.json({success : matched});
 
 			});
+		} else {
+			next("route");
 		}
 	});
 });

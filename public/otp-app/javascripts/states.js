@@ -76,3 +76,15 @@ angular.module("otpApp").config(["$stateProvider", "$urlRouterProvider",
 		}
 	});
 }]);
+
+
+
+//ensure that user is authecticate before state change for secure states
+otpApp.run(["$rootScope", "AuthenticationManager",
+	function($rootScope, AuthenticationManager) {
+		$rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
+			if(toState.data && toState.data.secure  && !AuthenticationManager.isAuthenticated()) {
+				event.preventDefault();
+			}
+		});
+	}]);

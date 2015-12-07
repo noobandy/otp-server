@@ -1,10 +1,11 @@
 "use strict";
 
 var otpApp = angular.module("otpApp", ["ngResource","ui.router","LocalStorageModule",
-	"pascalprecht.translate", "angular-loading-bar"]);
+	"pascalprecht.translate", "angular-loading-bar", "base64"]);
 
 otpApp.config(["localStorageServiceProvider",
 	function(localStorageServiceProvider) {
+		localStorageServiceProvider.setStorageType('sessionStorage');
 		localStorageServiceProvider.setPrefix("otpApp");
 	}]);
 
@@ -29,7 +30,31 @@ otpApp.config(['$translateProvider', function ($translateProvider) {
 	$translateProvider.fallbackLanguage('en');
 }]);
 
-otpApp.run([
-	function() {
-		console.log("running");
+
+/*//listen for authenticated events and set/unset authenticatedUser on root scope
+otpApp.run(["$rootScope",
+	function($rootScope) {
+		$rootScope.$on("otpAppAuthSuccess", function(event, authenticatedUser) {
+			$rootScope.otpApp.authenticatedUser = authenticatedUser;
+		});
+
+		$rootScope.$on("otpAppAuthFailed", function(event) {
+			delete $rootScope.otpApp.authenticatedUser;
+		});
+
+		$rootScope.$on("otpAppAuthCleared", function(event) {
+			delete $rootScope.otpApp.authenticatedUser;
+		});
+
+	}]);*/
+
+otpApp.run(["$rootScope", "AuthenticationManager", 
+	function($rootScope, AuthenticationManager) {
+		if(AuthenticationManager.isAuthenticated()) {
+			$rootScope.authenticatedUser = AuthenticationManager.getAuthenticatedUser();
+		}
+	}]);
+
+otpApp.run(["$rootScope",
+	function($rootScope) {
 	}]);
