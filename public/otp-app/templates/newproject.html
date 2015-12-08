@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="col-md-12">
+			<form novalidate name="projectForm" data-ng-submit="projectForm.$valid && createProject()" class="form-horizontal">
+			<fieldset>
+				<legend data-translate="OtpApp.createProject"></legend>
+
+				<div data-ng-class="{'has-error' : (projectForm.$submitted || projectForm.name.$touched) && (projectForm.name.$error.required || projectForm.name.$error.pattern)}" class="form-group">
+					<label class="control-label col-md-2">
+						<i class="fa fa-lg fa-cog"></i>
+					</label>
+					<div class="col-md-10">
+						<input type="text" name="name" data-ng-model="newProject.name" required pattern="[a-zA-Z0-9_ ]{6,}" class="form-control" placeholder="{{'OtpApp.projectName' | translate}}">
+						<span class="help-block" data-translate="OtpApp.Help.projectName"></span>
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-group">
+					<div class="col-md-10 col-md-offset-2">						
+						<button class="btn btn-primary" type="submit" data-translate="OtpApp.createProject">
+							
+						</button>	
+							
+						
+					</div>
+				</div>
+		</form>
+	</div>
+</div>

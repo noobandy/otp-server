@@ -8,6 +8,7 @@ block header
 	script(type="text/javascript" src="/public/otp-app/javascripts/services.js")
 	script(type="text/javascript" src="/public/otp-app/javascripts/factories.js")
 	script(type="text/javascript" src="/public/otp-app/javascripts/directives.js")
+	script(type="text/javascript" src="/public/otp-app/javascripts/interceptors.js")
 
 block content
 	div(data-ng-app="otpApp")
@@ -19,7 +20,8 @@ block content
 						span(class="icon-bar")
 						span(class="icon-bar")
 						span(class="icon-bar")
-					a(class="navbar-brand" data-ui-sref="home" data-translate="OtpApp.appName")
+					a(data-ng-if="!authenticatedUser" class="navbar-brand" data-ui-sref="home" data-translate="OtpApp.appName")
+					a(data-ng-if="authenticatedUser" class="navbar-brand" data-ui-sref="dashboard.stats" data-translate="OtpApp.appName")
 				div(class="collapse navbar-collapse" id="bs-example-navbar-collapse-1")
 					ul(class="nav navbar-nav")
 						li

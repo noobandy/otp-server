@@ -37,13 +37,13 @@ router.get("/users/:username", function(req, res, next) {
 router.post("/users/:username/changepassword", function(req, res, next) {
 	User.findByUsername(req.params.username, function(err, user) {
 		if(err) return next(err);
-
 		if(user !== null) {
-			user.changePassword(req.body.oldPassoword, req.body.newPassword, function(err, changed) {
+			user.changePassword(req.body.oldPassword, req.body.newPassword, function(err, changed) {
 				if(err) return next(err);
 				res.json({success : changed});
-
 			});
+		} else {
+			next("route");
 		}
 	});
 });

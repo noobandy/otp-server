@@ -40,22 +40,25 @@ UserSchema.statics.findByUsername = function(username, cb) {
 UserSchema.methods.checkPassword = function(password, cb) {
 	User.findOne({"username" : this.username}).exec(function(err, user) {
 		if(err) return cb(err);
-
 		return cb(null, user.password === password);
 	});
 };
 
 UserSchema.methods.changePassword = function(oldPassword, newPassword, cb) {
+
+	var that = this;
 	this.checkPassword(oldPassword, function(err, matched) {
 		if(err) return cb(err);
 
 		if(matched) {
-			this.password = newPassword;
-			this.save(function(err, user) {
+			that.password = newPassword;
+
+			that.save(function(err, user) {
 			
 				if(err) return cb(err);
 
-				return(null, true);
+				return cb(null, true);
+
 			});
 		} else {
 			return cb(null, false);
@@ -68,6 +71,7 @@ UserSchema.methods.resetPassword = function(passwordResetKey, newPassword, cb) {
 		this.password = newPassword;
 		this.save(function(err, user) {
 			if(err) return cb(err);
+
 			return cb(null, true);
 		});
 	} else {

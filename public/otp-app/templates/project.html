@@ -1,0 +1,21 @@
+ <div class="row">
+        <div class="col-md-12">
+                <form novalidate name="apiTestForm" data-ng-submit="apiTestForm.$valid && testApi()" class="form-horizontal" >
+                    <fieldset>
+                        <legend data-translate="OtpApp.testApi"></legend>
+
+                        <div class="form-group">
+                            <label class="col-md-1 col-md-offset-2 control-label"><i class="fa fa-phone-square fa-lg"></i></label>
+                            <div class="col-md-8">
+                                <input name="mobileNumber" type="text" placeholder="{{'OtpApp.mobileNumber' | translate}}" class="form-control">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group">
+                         <div class="col-md-8 col-md-offset-3">
+                            <button type="submit" class="btn btn-primary" data-translate="OtpApp.testApi"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </div>

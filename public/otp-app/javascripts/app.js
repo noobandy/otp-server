@@ -52,6 +52,7 @@ otpApp.run(["$rootScope", "AuthenticationManager",
 	function($rootScope, AuthenticationManager) {
 		if(AuthenticationManager.isAuthenticated()) {
 			$rootScope.authenticatedUser = AuthenticationManager.getAuthenticatedUser();
+			$rootScope.credentials = AuthenticationManager.getCredentials();
 		}
 	}]);
 

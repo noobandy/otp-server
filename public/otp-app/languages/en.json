@@ -24,6 +24,15 @@
 	"OtpApp.Help.username" : "Username must be at least 6 characters long",
 	"OtpApp.Help.password" : "Password must be at least 8 characters long and must include at one number, one uppercase letter, one special symbol",
 	"OtpApp.Help.repeatPassword" : "must be same as password.",
-	"OtpApp.Help.emailId" : "Must be a valid email id"
+	"OtpApp.Help.emailId" : "Must be a valid email id",
+	"OtpApp.Help.oldPassword" : "Your old password",
+	"OtpApp.oldPassword" : "Old password",
+	"OtpApp.createProject" : "Create Project",
+	"OtpApp.projectName" : "Name",
+	"OtpApp.Help.projectName" : "Project name must be at least 6 characters long",
+	"OtpApp.testApi" : "Test API",
+	"OtpApp.ApiWorking" : "It works",
+	"OtpApp.ApiNotWorking" : "Something is not working",
+	"OtpApp.mobileNumber" : "Mobile number"
 
 }

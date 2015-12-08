@@ -67,10 +67,56 @@ angular.module("otpApp").config(["$stateProvider", "$urlRouterProvider",
 			secure : false
 		}
 	}).state({
+		name : "change password",
+		url : "/changepassword",
+		templateUrl : "/public/otp-app/templates/changepassword.html",
+		controller : "ChangePasswordController",
+		data : {
+			secure : true
+		}
+	}).state({
 		name : "dashboard",
 		url : "/dashboard",
+		abstract : true,
 		templateUrl : "/public/otp-app/templates/dashboard.html",
-		controller : "DashboardController",
+		data : {
+			secure : true
+		}
+	}).state({
+		name : "dashboard.stats",
+		url : "/stats",
+		templateUrl : "/public/otp-app/templates/stats.html",
+		controller : "StatsController",
+		data : {
+			secure : true
+		}
+	}).state({
+		name : "dashboard.projects",
+		url : "/projects",
+		templateUrl : "/public/otp-app/templates/projects.html",
+		controller : "ProjectListController",
+		data : {
+			secure : true
+		}
+	}).state({
+		name : "dashboard.project",
+		url : "/projects/:id",
+		templateUrl : "/public/otp-app/templates/project.html",
+		controller : "ProjectController",
+		data : {
+			secure : true
+		},
+		resolve : {
+			currentProject : ["Project", "$stateParams",
+			function(Project, $stateParams) {
+				return Project.get({id : $stateParams.id});
+			}]
+		}
+	}).state({
+		name : "dashboard.newproject",
+		url : "/newproject",
+		templateUrl : "/public/otp-app/templates/newproject.html",
+		controller : "NewProjectController",
 		data : {
 			secure : true
 		}

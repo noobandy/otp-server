@@ -39,6 +39,9 @@ otpApp.service("AuthenticationManager", ["$http", "$rootScope", "localStorageSer
 				return localStorageService.get("authenticatedUser");
 				
 			},
+			getCredentials : function() {
+				return localStorageService.get("credentials");
+			},
 			logout : function() {
 				localStorageService.remove("authenticatedUser");
 				
@@ -86,10 +89,20 @@ otpApp.service("User", [ "$http",
 			resetPassword : function(username, key, newPassword) {
 				return $http({
 					url : basePath + "users/"+username+"/resetpassword",
-					method : "",
+					method : "POST",
 					data : {
 						newPassword : newPassword,
 						key : key
+					}
+				});
+			},
+			changePassword : function(username, oldPassword, newPassword) {
+				return $http({
+					url : basePath + "users/"+username+"/changepassword",
+					method : "POST",
+					data : {
+						newPassword : newPassword,
+						oldPassword : oldPassword
 					}
 				});
 			}

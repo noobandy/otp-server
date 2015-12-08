@@ -29,7 +29,7 @@ OtpSchema.statics.findByRequestId = function(requestId, cb) {
 	Otp.findById(requestId, function(err, otp) {
 		if(err) return cb(err);
 
-		return cb(otp);
+		return cb(null, otp);
 	});
 };
 
