@@ -2,26 +2,32 @@ var express = require("express"),
 	router = express.Router(),
 	path = require("path"),
 	Otp = require(path.join(__dirname, "../models/Otp")),
-	otpGenerator = require(path.join(__dirname, "../models/OtpGenerator"));
+	otpGenerator = require(path.join(__dirname, "../models/OtpGenerator")),
+	SMSHelper = require(path.join(__dirname, "../models/SMSHelper"));
 
-router.post("/otp/:apiKey/request", function(req, res, next) {
-	var application = req.authenticatedApplication;
+router.post("/otp/request", function(req, res, next) {
+	var authenticatedProject = req.authenticatedProject;
 
 	var otp = new Otp(req.body);
 
-	otp.application = application._id;
+	otp.project = authenticatedProject._id;
+
 	otp.key = otpGenerator(6);
+
+	otp.validTill = new Date().getTime() + 180000;
 	
 	otp.save(function(err, otp) {
 		if(err) return next(err);
 
+		SMSHelper.sendOTP(otp.mobileNumber, otp.key);
+		
 		return res.json({requestId : otp._id});
 	});
 
 });
 
 
-router.post("/otp/:apiKey/:requestId/verify", function(req, res, next) {
+router.post("/otp/:requestId/verify", function(req, res, next) {
 	var otp = Otp.findByRequestId(req.params.requestId, function(err, otp) {
 		if(err) return next(err);
 
@@ -32,6 +38,8 @@ router.post("/otp/:apiKey/:requestId/verify", function(req, res, next) {
 				res.json({success : verified});
 
 			});
+		} else {
+			return next("route");
 		}
 	});
 });

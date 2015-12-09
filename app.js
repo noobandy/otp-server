@@ -11,9 +11,7 @@ var projects = require('./routes/projects');
 var otp = require('./routes/otp');
 
 
-var basicAuth = require(path.join(__dirname, "./middlewares/basic-auth"));
 
-var apiAuth = require(path.join(__dirname, "./middlewares/api-auth"));
 
 var app = express();
 
@@ -30,7 +28,12 @@ app.use(cookieParser());
 app.use("/public", express.static(path.join(__dirname, 'public')));
 app.use("/bower_components", express.static(path.join(__dirname, 'bower_components')));
 
+
 //auth middleware
+
+var basicAuth = require(path.join(__dirname, "./middlewares/basic-auth"));
+
+var apiAuth = require(path.join(__dirname, "./middlewares/api-auth"));
 
 app.use("/projects",basicAuth);
 

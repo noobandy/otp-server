@@ -108,3 +108,29 @@ otpApp.service("User", [ "$http",
 			}
 		};
 	}]);
+
+
+otpApp.service("Otp", [ "$http",
+	function($http) {
+		var basePath = "http://localhost:3000/api/otp/";
+		return {
+			request : function(apiKey, mobileNumber) {
+				return $http({
+					url : basePath  + "request?apiKey="+apiKey,
+					method : "POST",
+					data : {
+						mobileNumber : mobileNumber
+					}
+				});
+			},
+			verify : function(apiKey, requestId, userResponse) {
+				return $http({
+					url : basePath + requestId + "/verify?apiKey="+apiKey,
+					method : "POST",
+					data : {
+						otp : userResponse
+					}
+				});
+			}
+		};
+	}]);

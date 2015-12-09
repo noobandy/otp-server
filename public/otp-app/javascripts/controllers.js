@@ -139,17 +139,29 @@ otpApp.controller("ProjectListController", ["$scope", "Project",
 	}]);
 
 
-otpApp.controller("ProjectController", ["$scope", 
-	function($scope, currentProject) {
+otpApp.controller("ProjectController", ["$scope", "Otp", "currentProject",
+	function($scope, Otp, currentProject) {
 		$scope.project = currentProject;
 
 		$scope.apiTestModel = {
-			mobileNumber : ""
+			mobileNumber : "",
+			requestId : "",
+			otp : "",
+			otpGenerated : false,
+			otpVerified : false
 		};
 
-		$scope.testApi = function() {
-			console.log($scope.apiTestModel.mobileNumber);
-			console.log($scope.project.apiKey);
+		$scope.generateOtp = function() {
+			Otp.request($scope.project.apiKey, $scope.apiTestModel.mobileNumber).then(function(result) {
+				$scope.apiTestModel.requestId = result.data.requestId;
+				$scope.apiTestModel.otpGenerated = true;
+			});
+		};
+
+		$scope.verifyOtp = function() {
+			Otp.verify($scope.project.apiKey, $scope.apiTestModel.requestId, $scope.apiTestModel.otp).then(function(result) {
+				$scope.apiTestModel.otpVerified = true;
+			});
 		};
 
 	}]);

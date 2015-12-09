@@ -9,7 +9,6 @@ otpApp.config(["$httpProvider",
 					request : function(config) {
 						if($rootScope.authenticatedUser) {
 							config.headers.authorization = "Basic "+$rootScope.credentials;
-							console.log(config.headers);
 						}
 						return config;
 					}

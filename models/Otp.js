@@ -3,10 +3,10 @@ var mongoose = require("mongoose"),
 	Otp;
 
 OtpSchema = mongoose.Schema({
-	application : {
+	project : {
 		type : mongoose.Schema.ObjectId,
 		required : true,
-		ref : "Application"
+		ref : "Project"
 	},
 	mobileNumber : {
 		type : String,
@@ -21,6 +21,10 @@ OtpSchema = mongoose.Schema({
 	validTill : {
 		type : Number,
 		required : true
+	},
+	used : {
+		type : Boolean,
+		default : false
 	}
 });
 
@@ -36,15 +40,16 @@ OtpSchema.statics.findByRequestId = function(requestId, cb) {
 OtpSchema.methods.verify = function(key, cb) {
 	var now = new Date().getTime();
 
-	if(this.key === key && this.validTill >= now) {
+	if(this.key === key && !this.used &&this.validTill >= now) {
 		this.validTill = now;
+		this.used = true;
 		this.save(function(err, doc) {
 			if(err) return cb(err);
 
 			return cb(null, true); 
 		});
 	} else {
-		cb(null, false);
+		return cb(null, false);
 	}
 };
 
