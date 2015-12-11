@@ -1,7 +1,5 @@
 
-var host = "http://luna.a2wi.co.in",
-	port = "7501",
-	apiReqeustTemplate = "/failsafe/HttpLink?aid=@AID@&pin=@PIN@&signature=@SIGNATURE@&mnumber=@MNUMBER@&message=@MESSAGE@@MSG_TYPE@",
+var apiReqeustTemplate = "http://luna.a2wi.co.in:7501/failsafe/HttpLink?aid=@AID@&pin=@PIN@&signature=@SIGNATURE@&mnumber=@MNUMBER@&message=@MESSAGE@@MSG_TYPE@",
 	AID = "@AID@",
 	PIN = "@PIN@",
 	SIGNATURE = "@SIGNATURE@",
@@ -11,12 +9,12 @@ var host = "http://luna.a2wi.co.in",
 	smsApiConfig = {
 		aid : "517170",
 		pin : "emp@1",
-		signature : "MYSCTY-OTP"
+		signature : "MYSCTY"
 	},
 	http = require("http");
 
 module.exports = {
-	sendOTP : function(mobileNumber, otp) {
+	sendOTP : function(mobileNumber, otp, cb) {
 
 		var apiRequest = apiReqeustTemplate.replace(AID, smsApiConfig.aid);
 		apiRequest = apiRequest.replace(PIN, smsApiConfig.pin);
@@ -31,23 +29,19 @@ module.exports = {
             apiRequest = apiRequest.replace(MSG_TYPE, "");
         }
 
-        console.log(host + ":" + port + apiRequest);
+        console.log(apiRequest);
 
-        http.request({
-        	host : host,
-        	port : port,
-        	path : apiRequest
-        }, function(response) {
-        	var str = '';
-        	//another chunk of data has been recieved, so append it to `str`
-        	response.on('data', function (chunk) {
-        		str += chunk;
-        	});
+        http.request(apiRequest, function(response) {
+            var str = '';
+            //another chunk of data has been recieved, so append it to `str`
+            response.on('data', function (chunk) {
+                str += chunk;
+            });
 
-        	//the whole response has been recieved, so we just print it out here
-        	response.on('end', function () {
-        		console.log(str);
-        	});
+            //the whole response has been recieved, so we just print it out here
+            response.on('end', function () {
+                console.log(str);
+            });
         }).end();
     }
 };
