@@ -55,7 +55,6 @@ router.post("/users/:username/checkpassword", function(req, res, next) {
 		if(user !== null) {
 			user.checkPassword(req.body.password, function(err, matched) {
 				if(err) return next(err);
-
 				res.json({success : matched});
 
 			});

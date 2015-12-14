@@ -125,9 +125,10 @@ otpApp.service("Otp", [ "$http",
 			},
 			verify : function(apiKey, requestId, userResponse) {
 				return $http({
-					url : basePath + requestId + "/verify?apiKey="+apiKey,
+					url : basePath + "verify?apiKey="+apiKey,
 					method : "POST",
 					data : {
+						requestId : requestId,
 						otp : userResponse
 					}
 				});

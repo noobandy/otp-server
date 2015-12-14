@@ -27,8 +27,8 @@ router.post("/otp/request", function(req, res, next) {
 });
 
 
-router.post("/otp/:requestId/verify", function(req, res, next) {
-	var otp = Otp.findByRequestId(req.params.requestId, function(err, otp) {
+router.post("/otp/verify", function(req, res, next) {
+	var otp = Otp.findByRequestId(req.body.requestId, function(err, otp) {
 		if(err) return next(err);
 
 		if(otp !== null) {
