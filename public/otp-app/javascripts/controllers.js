@@ -139,8 +139,8 @@ otpApp.controller("ProjectListController", ["$scope", "Project",
 	}]);
 
 
-otpApp.controller("ProjectController", ["$scope", "Otp", "currentProject",
-	function($scope, Otp, currentProject) {
+otpApp.controller("ProjectController", ["$scope", "Otp", "currentProject", "$state",
+	function($scope, Otp, currentProject, $state) {
 		$scope.project = currentProject;
 
 		$scope.apiTestModel = {
@@ -161,6 +161,12 @@ otpApp.controller("ProjectController", ["$scope", "Otp", "currentProject",
 		$scope.verifyOtp = function() {
 			Otp.verify($scope.project.apiKey, $scope.apiTestModel.requestId, $scope.apiTestModel.otp).then(function(result) {
 				$scope.apiTestModel.otpVerified = true;
+			});
+		};
+
+		$scope.deleteProject = function() {
+			$scope.project.$remove().then(function() {
+				$state.go("dashboard.projects");
 			});
 		};
 

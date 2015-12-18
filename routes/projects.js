@@ -27,7 +27,7 @@ router.get('/projects', function(req, res, next) {
 
 router.post('/projects', function(req, res, next) {
 	var project = new Project(req.body);
-	var apiKey = slug(randomKeyGenerator(32));
+	var apiKey = slug(randomKeyGenerator(16));
 
 	project.apiKey = apiKey;
 	
@@ -50,6 +50,22 @@ router.get("/projects/:id", function(req, res, next) {
 		}
 		
 		res.json(project);
+	});
+});
+
+router.delete("/projects/:id", function(req, res, next) {
+	Project.findById(req.params.id, function(err, project) {
+		if(err) return next(err);
+
+		if(project === null) {
+			return next("route");
+		}
+
+		project.delete(function(err, project) {
+			if(err) return next(err);
+
+			res.json({sucess : true});
+		});
 	});
 });
 

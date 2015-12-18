@@ -19,11 +19,14 @@ ProjectSchema = mongoose.Schema({
 		type : mongoose.Schema.ObjectId,
 		required : true,
 		ref : "User"
+	},
+	deletedAt : {
+		type : Date
 	}
 });
 
 ProjectSchema.statics.findAllProjectsOfUser = function(user, cb) {
-	Project.find({user : user._id}, function(err, projects) {
+	Project.find({user : user._id, deletedAt : null}, function(err, projects) {
 		if(err) return cb(err);
 
 		return cb(null, projects);
@@ -37,6 +40,14 @@ ProjectSchema.statics.findByApiKey = function(apiKey, cb) {
 		return cb(null, project);
 	});
 };
+
+ProjectSchema.methods.delete = function(cb) {
+	this.deletedAt = new Date();
+	this.save(function(err,doc) {
+		if(err) return cb(err);
+		return cb(null, doc);
+	});
+}
 
 
 

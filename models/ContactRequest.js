@@ -12,7 +12,7 @@ ContactRequestSchema = mongoose.Schema({
 	lastName : {
 		type : String,
 		required : true,
-		match : match : /^[a-zA-Z]+ *[a-zA-Z]+$/
+		match : /^[a-zA-Z]+ *[a-zA-Z]+$/
 	},
 	emailId : {
 		type : String,
