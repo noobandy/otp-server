@@ -34,7 +34,7 @@ ProjectSchema.statics.findAllProjectsOfUser = function(user, cb) {
 };
 
 ProjectSchema.statics.findByApiKey = function(apiKey, cb) {
-	Project.findOne({apiKey : apiKey}, function(err, project) {
+	Project.findOne({apiKey : apiKey, deletedAt : null}, function(err, project) {
 		if(err) return cb(err);
 
 		return cb(null, project);
