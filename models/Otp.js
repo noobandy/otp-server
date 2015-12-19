@@ -22,6 +22,10 @@ OtpSchema = mongoose.Schema({
 		type : Number,
 		required : true
 	},
+	attemptsLeft : {
+		type : Number,
+		required : true
+	},
 	used : {
 		type : Boolean,
 		default : false
@@ -37,21 +41,6 @@ OtpSchema.statics.findByRequestId = function(requestId, cb) {
 	});
 };
 
-OtpSchema.methods.verify = function(key, cb) {
-	var now = new Date().getTime();
-
-	if(this.key === key && !this.used &&this.validTill >= now) {
-		this.validTill = now;
-		this.used = true;
-		this.save(function(err, doc) {
-			if(err) return cb(err);
-
-			return cb(null, true); 
-		});
-	} else {
-		return cb(null, false);
-	}
-};
 
 Otp = mongoose.model("Otp", OtpSchema);
 

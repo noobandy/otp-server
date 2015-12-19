@@ -53,6 +53,22 @@ router.get("/projects/:id", function(req, res, next) {
 	});
 });
 
+router.put("/projects/:id", function(req, res, next) {
+	Project.findById(req.params.id, function(err, project) {
+		if(err) return next(err);
+
+		if(project === null) {
+			return next("route");
+		}
+		project.config = req.body.config;
+
+		project.save(function(err, project) {
+			if(err) return next(err);
+
+			res.json(project);
+		});
+	});
+});
 router.delete("/projects/:id", function(req, res, next) {
 	Project.findById(req.params.id, function(err, project) {
 		if(err) return next(err);

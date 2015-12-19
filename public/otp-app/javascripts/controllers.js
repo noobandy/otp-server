@@ -23,7 +23,7 @@ otpApp.controller("NavbarController",["$scope", "AuthenticationManager", "$state
 					
 					$scope.loginModel = newLoginModel();
 
-					$state.go("dashboard.stats");
+					$state.go("dashboard");
 
 				}, function(error) {
 					$scope.loginModel.wrongCredentials = true;
@@ -116,7 +116,7 @@ otpApp.controller("ChangePasswordController", ["$scope", "$rootScope", "User", "
 
 					AuthenticationManager.logout();
 
-					$state.go("home");
+					$state.go("dashboard");
 
 				} else {
 					$scope.passwordChangeModel.wrongCredentials = true;
@@ -128,7 +128,7 @@ otpApp.controller("ChangePasswordController", ["$scope", "$rootScope", "User", "
 
 	}]);
 
-otpApp.controller("StatsController", ["$scope", 
+otpApp.controller("DashboardController", ["$scope",
 	function($scope) {
 
 	}]);
@@ -141,32 +141,51 @@ otpApp.controller("ProjectListController", ["$scope", "Project",
 
 otpApp.controller("ProjectController", ["$scope", "Otp", "currentProject", "$state",
 	function($scope, Otp, currentProject, $state) {
+
 		$scope.project = currentProject;
 
 		$scope.apiTestModel = {
 			mobileNumber : "",
 			requestId : "",
 			otp : "",
-			otpGenerated : false,
-			otpVerified : false
+			alerts : []
 		};
 
 		$scope.generateOtp = function() {
 			Otp.request($scope.project.apiKey, $scope.apiTestModel.mobileNumber).then(function(result) {
 				$scope.apiTestModel.requestId = result.data.requestId;
-				$scope.apiTestModel.otpGenerated = true;
+				$scope.apiTestModel.alerts.unshift({type : "success", message : "OTP Generated and sent to the mobile entered."});
 			});
 		};
 
 		$scope.verifyOtp = function() {
 			Otp.verify($scope.project.apiKey, $scope.apiTestModel.requestId, $scope.apiTestModel.otp).then(function(result) {
-				$scope.apiTestModel.otpVerified = true;
+				if(result.data.success) {
+					$scope.apiTestModel.alerts.unshift({type : "success", message : "OTP Verified Successfully!"});
+				} else {
+					$scope.apiTestModel.alerts.unshift({type : "danger", message : "OTP Verification failed!"});
+				}
 			});
 		};
 
+		$scope.clearOtpTest = function() {
+			$scope.apiTestModel = {
+				mobileNumber : "",
+				requestId : "",
+				otp : "",
+				alerts : []
+			};
+		}
+
 		$scope.deleteProject = function() {
 			$scope.project.$remove().then(function() {
-				$state.go("dashboard.projects");
+				$state.go("projects");
+			});
+		};
+
+		$scope.updateConfig= function() {
+			$scope.project.$update().then(function(result) {
+				console.log(result);
 			});
 		};
 
@@ -184,7 +203,7 @@ otpApp.controller("NewProjectController", ["$scope", "Project", "$state",
 				console.log(result);
 				$scope.newProjectModel = new Project();
 
-				$state.go("dashboard.projects");
+				$state.go("projects");
 			});
 			
 		};

@@ -77,21 +77,13 @@ angular.module("otpApp").config(["$stateProvider", "$urlRouterProvider",
 	}).state({
 		name : "dashboard",
 		url : "/dashboard",
-		abstract : true,
 		templateUrl : "/public/otp-app/templates/dashboard.html",
+		controller : "DashboardController",
 		data : {
 			secure : true
 		}
 	}).state({
-		name : "dashboard.stats",
-		url : "/stats",
-		templateUrl : "/public/otp-app/templates/stats.html",
-		controller : "StatsController",
-		data : {
-			secure : true
-		}
-	}).state({
-		name : "dashboard.projects",
+		name : "projects",
 		url : "/projects",
 		templateUrl : "/public/otp-app/templates/projects.html",
 		controller : "ProjectListController",
@@ -99,7 +91,7 @@ angular.module("otpApp").config(["$stateProvider", "$urlRouterProvider",
 			secure : true
 		}
 	}).state({
-		name : "dashboard.project",
+		name : "project",
 		url : "/projects/:id",
 		templateUrl : "/public/otp-app/templates/project.html",
 		controller : "ProjectController",
@@ -113,7 +105,7 @@ angular.module("otpApp").config(["$stateProvider", "$urlRouterProvider",
 			}]
 		}
 	}).state({
-		name : "dashboard.newproject",
+		name : "newproject",
 		url : "/newproject",
 		templateUrl : "/public/otp-app/templates/newproject.html",
 		controller : "NewProjectController",

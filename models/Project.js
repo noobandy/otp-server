@@ -1,6 +1,10 @@
 var mongoose = require("mongoose"),
 	ProjectSchema,
-	Project;
+	Project,
+	path = require("path"),
+	Otp = require(path.join(__dirname, "Otp")),
+	otpGenerator = require(path.join(__dirname, "../models/OtpGenerator")),
+	SMSHelper = require(path.join(__dirname, "../models/SMSHelper"));
 
 ProjectSchema = mongoose.Schema({
 	name : {
@@ -13,7 +17,22 @@ ProjectSchema = mongoose.Schema({
 		required : true
 	},
 	config : {
-		type : Object
+		//time to live (validity period for otp in milliseconds)
+		otpValidityPeriod : {
+			type : Number,
+			//default is 3 min (180000 milliseconds)
+			default : 180000
+		},
+		//how many attempts are allowed for otp
+		otpMaxAllowedAttempts : {
+			type : Number,
+			default : 3
+		},
+		//otp length
+		otpLength : {
+			type : Number,
+			default: 6
+		}
 	},
 	user : {
 		type : mongoose.Schema.ObjectId,
@@ -47,7 +66,57 @@ ProjectSchema.methods.delete = function(cb) {
 		if(err) return cb(err);
 		return cb(null, doc);
 	});
-}
+};
+
+ProjectSchema.methods.requestOTP = function(mobileNumber, cb) {
+	var otp = new Otp({mobileNumber : mobileNumber});
+
+	otp.project = this._id;
+
+	otp.key = otpGenerator(this.config.otpLength);
+
+	otp.validTill = new Date().getTime() + this.config.otpValidityPeriod;
+
+	otp.attemptsLeft = this.config.otpMaxAllowedAttempts;
+
+	otp.save(function(err, otp) {
+		if(err) return cb(err);
+
+		SMSHelper.sendOTP(otp.mobileNumber, otp.key);
+
+		return cb(null, otp._id);
+	});
+};
+
+ProjectSchema.methods.verifyOTP = function(requestId, userResponse, cb) {
+	Otp.findByRequestId(requestId, function(err, otp) {
+		var now = new Date().getTime();
+
+		var verified = false;
+
+		if(err) return cb(err);
+
+		if(otp === null) return cb({name : "otp not found", message: "otp not found"});
+
+
+		if(!otp.used && otp.validTill >= now && otp.attemptsLeft > 0) {
+
+			otp.attemptsLeft = otp.attemptsLeft - 1;
+
+			if(otp.key === userResponse) {
+				otp.used = true;
+				verified = true;
+			}
+		}
+
+		otp.save(function(err, otp) {
+			if(err) return cb(err);
+
+			return cb(null, verified);
+		});
+
+	});
+};
 
 
 

@@ -1,6 +1,6 @@
 "use strict";
 
-var otpApp = angular.module("otpApp", ["ngResource","ui.router","LocalStorageModule",
+var otpApp = angular.module("otpApp", ["ngResource","ui.router", "ui.bootstrap", "LocalStorageModule",
 	"pascalprecht.translate", "angular-loading-bar", "base64"]);
 
 otpApp.config(["localStorageServiceProvider",

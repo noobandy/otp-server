@@ -1,6 +1,6 @@
   	<div class="row">
   		<div class="col-md-3">
-  			 <a class="btn btn-primary btn-lg" data-ui-sref="dashboard.newproject" role="button">
+  			 <a class="btn btn-primary btn-lg" data-ui-sref="newproject" role="button">
   			 	<i class="fa fa-plus"></i> New Project
   			 </a>
   			 <hr/>	
@@ -8,7 +8,7 @@
   	</div>
   	 	
   	<div class="row">
-  		<div data-ng-repeat="project in projects" class="col-md-6">
+  		<div data-ng-repeat="project in projects" class="col-md-4">
   			<div class="panel panel-primary">
   				<div class="panel-heading" data-ng-bind="project.name">
   				</div>
@@ -16,7 +16,7 @@
   					<p>
   						<strong>API key : </strong> {{project.apiKey}}
   					</p>
-  					<a class="btn btn-primary" data-ui-sref="dashboard.project({id : project._id})">
+  					<a class="btn btn-primary" data-ui-sref="project({id : project._id})">
   						Details
   					</a>
   				</div>

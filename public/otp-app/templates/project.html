@@ -1,57 +1,147 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                {{project.name}}
-                <button data-ng-click="deleteProject()" type="button" class="pull-right btn btn-danger">
-                    <i class="fa fa-lg fa-trash"></i>
-                </button>
-            </div>
-            <div class="panel-body">
-                Api Key : {{project.apiKey}}
-                <hr/>
-                <h4 data-ng-if="apiTestModel.otpGenerated && apiTestModel.otpVerified">
-                    It Works!!!
+        <h4 data-ng-bind="project.name">
+        </h4>
+        <hr>
+        <uib-tabset>
+            <uib-tab>
+                <data-uib-tab-heading>
+                    <i class="fa fa-th-list"></i> Details
+                </data-uib-tab-heading>
+                <h4>
+                    Details
                 </h4>
-                <form data-ng-if="!apiTestModel.otpGenerated" novalidate name="otpGenerateForm" data-ng-submit="otpGenerateForm.$valid && generateOtp()" class="form-horizontal" >
-                    <fieldset>
-                        <legend data-translate="OtpApp.testApi"></legend>
+                <hr>
 
-                        <div class="form-group" data-ng-class="{'has-error' : (otpGenerateForm.$submitted || otpGenerateForm.mobileNumber.$touched) && (otpGenerateForm.mobileNumber.$error.required || otpGenerateForm.mobileNumber.$error.pattern)}">
-                            <label class="col-md-1 col-md-offset-2 control-label"><i class="fa fa-lock fa-lg"></i></label>
+            </uib-tab>
+            <uib-tab>
+                <data-uib-tab-heading>
+                    <i class="fa fa-cogs"></i> Settings
+                </data-uib-tab-heading>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
                             <div class="col-md-8">
-                                <input data-ng-model="apiTestModel.mobileNumber" name="mobileNumber" type="text" required pattern="[0-9]{10}" placeholder="{{'OtpApp.mobileNumber' | translate}}" class="form-control">
+                                <h4>
+                                    Configurations
+                                </h4>
+                            </div>
+                            <div class="col-md-4">
+                                <button data-ng-click="deleteProject()" class="pull-right btn btn-danger">
+                                    Delete
+                                </button>
                             </div>
                         </div>
-                    </fieldset>
-                    <div class="form-group">
-                        <div class="col-md-8 col-md-offset-3">
-                            <button type="submit" class="btn btn-primary" data-translate="OtpApp.testApi"></button>
-                        </div>
-                    </div>
-                </form>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form novalidate name="projectConfigForm" data-ng-submit="projectConfigForm.$valid && updateConfig()">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">
+                                            Api Key
+                                        </label>
+                                        <div class="col-md-9 form-control-static">
+                                            {{project.apiKey}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">
+                                            Validity
+                                        </label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" data-ng-model="project.config.otpValidityPeriod">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">
+                                            Length
+                                        </label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" data-ng-model="project.config.otpLength">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">
+                                            Attempts
+                                        </label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" data-ng-model="project.config.otpMaxAllowedAttempts">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">
 
-                <form data-ng-if="apiTestModel.otpGenerated && !apiTestModel.otpVerified" novalidate name="otpVerifyForm" data-ng-submit="otpVerifyForm.$valid && verifyOtp()" class="form-horizontal" >
-                    <fieldset>
-                        <legend data-translate="OtpApp.testApi"></legend>
-
-                        <div class="form-group" data-ng-class="{'has-error' : (otpVerifyForm.$submitted || otpVerifyForm.otp.$touched) && (otpVerifyForm.otp.$error.required)}">
-                            <label class="col-md-1 col-md-offset-2 control-label"><i class="fa fa-phone-square fa-lg"></i></label>
-                            <div class="col-md-8">
-                                <input data-ng-model="apiTestModel.otp" name="otp" type="password" required placeholder="{{'OtpApp.otp' | translate}}" class="form-control">
+                                        </label>
+                                        <div class="col-md-9 col-md-offset-3">
+                                            <button type="submit" class="btn btn-primary">
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    </fieldset>
-                    <div class="form-group">
-                        <div class="col-md-8 col-md-offset-3">
-                            <button type="submit" class="btn btn-primary" data-translate="OtpApp.verifyOtp"></button>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4 data-translate="OtpApp.testApi">
+                                </h4>
+                            </div>
+                            <div class="col-md-4">
+                                <button data-ng-click="clearOtpTest()" type="button" class="btn btn-primary pull-right">
+                                    Clear
+                                </button>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <uib-alert data-ng-repeat="alert in apiTestModel.alerts" type="{{alert.type}}">{{alert.message}}</uib-alert>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form  novalidate name="otpGenerateForm" data-ng-submit="otpGenerateForm.$valid && generateOtp()" >
+
+
+                                    <div class="form-group" data-ng-class="{'has-error' : (otpGenerateForm.$submitted || otpGenerateForm.mobileNumber.$touched) && (otpGenerateForm.mobileNumber.$error.required || otpGenerateForm.mobileNumber.$error.pattern)}">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                              <i class="fa fa-lg fa-mobile-phone"></i>
+                                           </span>
+                                            <input data-ng-model="apiTestModel.mobileNumber" name="mobileNumber" type="text" required pattern="[0-9]{10}" placeholder="{{'OtpApp.mobileNumber' | translate}}" class="form-control">
+                                           <span class="input-group-addon">
+                                               <button type="submit" class="btn btn-primary" data-translate="OtpApp.send"></button>
+                                           </span>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form novalidate name="otpVerifyForm" data-ng-submit="otpVerifyForm.$valid && verifyOtp()">
+
+
+                                    <div class="form-group" data-ng-class="{'has-error' : (otpVerifyForm.$submitted || otpVerifyForm.otp.$touched) && (otpVerifyForm.otp.$error.required)}">
+                                        <div class="input-group">
+                                           <span class="input-group-addon">
+                                               <i class="fa fa-lg fa-lock"></i>
+                                           </span>
+                                            <input data-ng-model="apiTestModel.otp" name="otp" type="password" required placeholder="{{'OtpApp.otp' | translate}}" class="form-control">
+                                           <span class="input-group-addon">
+                                               <button type="submit" class="btn btn-primary" data-translate="OtpApp.verifyOtp"></button>
+                                           </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
 
-
+            </uib-tab>
+        </uib-tabset>
     </div>
-
 </div>

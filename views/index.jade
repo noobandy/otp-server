@@ -21,9 +21,11 @@ block content
 						span(class="icon-bar")
 						span(class="icon-bar")
 					a(data-ng-if="!authenticatedUser" class="navbar-brand" data-ui-sref="home" data-translate="OtpApp.appName")
-					a(data-ng-if="authenticatedUser" class="navbar-brand" data-ui-sref="dashboard.stats" data-translate="OtpApp.appName")
+					a(data-ng-if="authenticatedUser" class="navbar-brand" data-ui-sref="dashboard" data-translate="OtpApp.appName")
 				div(class="collapse navbar-collapse" id="bs-example-navbar-collapse-1")
 					ul(class="nav navbar-nav")
+						li(data-ng-if="authenticatedUser")
+							a(data-ui-sref="projects" data-translate="OtpApp.projects")
 						li
 							a(data-ui-sref="about" data-translate="OtpApp.about")
 						li

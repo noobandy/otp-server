@@ -35,6 +35,8 @@
 	"OtpApp.ApiNotWorking" : "Something is not working",
 	"OtpApp.mobileNumber" : "Mobile number",
 	"OtpApp.otp" : "One time password",
-	"OtpApp.verifyOtp" : "Verify"
+	"OtpApp.verifyOtp" : "Verify",
+	"OtpApp.send" : "Send",
+	"OtpApp.projects" : "Projects"
 
 }
