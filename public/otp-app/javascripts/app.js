@@ -3,6 +3,10 @@
 var otpApp = angular.module("otpApp", ["ngResource","ui.router", "ui.bootstrap", "LocalStorageModule",
 	"pascalprecht.translate", "angular-loading-bar", "base64"]);
 
+otpApp.constant("otpAppConfig", {
+	basePath : "http://localhost:3000/"
+});
+
 otpApp.config(["localStorageServiceProvider",
 	function(localStorageServiceProvider) {
 		localStorageServiceProvider.setStorageType('sessionStorage');

@@ -2,15 +2,14 @@
 var otpApp = angular.module("otpApp");
 
 otpApp.service("AuthenticationManager", ["$http", "$rootScope", "localStorageService",
-	"$base64","$q",
-	function($http, $rootScope, localStorageService, $base64, $q){
-		var basePath = "http://localhost:3000/";
+	"$base64","$q", "otpAppConfig",
+	function($http, $rootScope, localStorageService, $base64, $q, otpAppConfig){
 
 		return {
 			authenticate : function(username, password) {
 
 				return $http({
-					url : basePath + "users/"+username+"/checkpassword",
+					url : otpAppConfig.basePath + "users/"+username+"/checkpassword",
 					method : "POST",
 					data : {
 						password : password
@@ -53,14 +52,13 @@ otpApp.service("AuthenticationManager", ["$http", "$rootScope", "localStorageSer
 	}]);
 
 
-otpApp.service("User", [ "$http",
-	function($http){
-		var basePath = "http://localhost:3000/";
+otpApp.service("User", [ "$http", "otpAppConfig",
+	function($http, otpAppConfig){
 
 		return {
 			register : function(emailId, username, password) {
 				return $http({
-					url : basePath + "users",
+					url : otpAppConfig.otpAppConfig.basePath + "users",
 					method : "POST",
 					data : {
 						username : username,
@@ -71,7 +69,7 @@ otpApp.service("User", [ "$http",
 			},
 			verifyEmailId : function(username, key) {
 				return $http({
-					url : basePath + "users/"+username+"/verifyemail",
+					url : otpAppConfig.basePath + "users/"+username+"/verifyemail",
 					method : "POST",
 					data : {
 						key : key
@@ -80,7 +78,7 @@ otpApp.service("User", [ "$http",
 			},
 			sendPasswordResetLink : function(username) {
 				return $http({
-					url : basePath + "users/"+username+"/forgotpassword",
+					url : otpAppConfig.basePath + "users/"+username+"/forgotpassword",
 					method : "POST",
 					data : {
 					}
@@ -88,7 +86,7 @@ otpApp.service("User", [ "$http",
 			},
 			resetPassword : function(username, key, newPassword) {
 				return $http({
-					url : basePath + "users/"+username+"/resetpassword",
+					url : otpAppConfig.basePath + "users/"+username+"/resetpassword",
 					method : "POST",
 					data : {
 						newPassword : newPassword,
@@ -98,7 +96,7 @@ otpApp.service("User", [ "$http",
 			},
 			changePassword : function(username, oldPassword, newPassword) {
 				return $http({
-					url : basePath + "users/"+username+"/changepassword",
+					url : otpAppConfig.basePath + "users/"+username+"/changepassword",
 					method : "POST",
 					data : {
 						newPassword : newPassword,
@@ -110,13 +108,13 @@ otpApp.service("User", [ "$http",
 	}]);
 
 
-otpApp.service("Otp", [ "$http",
-	function($http) {
-		var basePath = "http://localhost:3000/api/otp/";
+otpApp.service("Otp", [ "$http", "otpAppConfig",
+	function($http, otpAppConfig) {
+
 		return {
 			request : function(apiKey, mobileNumber) {
 				return $http({
-					url : basePath  + "request?apiKey="+apiKey,
+					url : otpAppConfig.basePath  + "api/otp/request?apiKey="+apiKey,
 					method : "POST",
 					data : {
 						mobileNumber : mobileNumber
@@ -125,7 +123,7 @@ otpApp.service("Otp", [ "$http",
 			},
 			verify : function(apiKey, requestId, userResponse) {
 				return $http({
-					url : basePath + "verify?apiKey="+apiKey,
+					url : otpAppConfig.basePath + "api/otp/verify?apiKey="+apiKey,
 					method : "POST",
 					data : {
 						requestId : requestId,
