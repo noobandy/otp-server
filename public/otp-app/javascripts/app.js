@@ -31,22 +31,25 @@ otpApp.config(['$translateProvider', function ($translateProvider) {
 }]);
 
 
-/*//listen for authenticated events and set/unset authenticatedUser on root scope
-otpApp.run(["$rootScope",
-	function($rootScope) {
-		$rootScope.$on("otpAppAuthSuccess", function(event, authenticatedUser) {
-			$rootScope.otpApp.authenticatedUser = authenticatedUser;
+//listen for authenticated events and set/unset authenticatedUser on root scope
+otpApp.run(["$rootScope", "AuthenticationManager",
+	function($rootScope, AuthenticationManager) {
+		$rootScope.$on("otpAppAuthSuccess", function(event, authenticatedUser, credentials) {
+			$rootScope.authenticatedUser = authenticatedUser
+			$rootScope.credentials = credentials;
 		});
 
 		$rootScope.$on("otpAppAuthFailed", function(event) {
-			delete $rootScope.otpApp.authenticatedUser;
+			delete $rootScope.authenticatedUser;
+			delete $rootScope.credentials;
 		});
 
 		$rootScope.$on("otpAppAuthCleared", function(event) {
-			delete $rootScope.otpApp.authenticatedUser;
+			delete $rootScope.authenticatedUser;
+			delete $rootScope.credentials;
 		});
 
-	}]);*/
+	}]);
 
 otpApp.run(["$rootScope", "AuthenticationManager", 
 	function($rootScope, AuthenticationManager) {
@@ -54,8 +57,4 @@ otpApp.run(["$rootScope", "AuthenticationManager",
 			$rootScope.authenticatedUser = AuthenticationManager.getAuthenticatedUser();
 			$rootScope.credentials = AuthenticationManager.getCredentials();
 		}
-	}]);
-
-otpApp.run(["$rootScope",
-	function($rootScope) {
 	}]);

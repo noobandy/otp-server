@@ -8,9 +8,8 @@ otpApp.service("AuthenticationManager", ["$http", "$rootScope", "localStorageSer
 
 		return {
 			authenticate : function(username, password) {
-				var defered = $q.defer();
 
-				$http({
+				return $http({
 					url : basePath + "users/"+username+"/checkpassword",
 					method : "POST",
 					data : {
@@ -21,15 +20,16 @@ otpApp.service("AuthenticationManager", ["$http", "$rootScope", "localStorageSer
 						localStorageService.set("authenticatedUser", username);
 						var credentials = $base64.encode(username + ":" + password);
 						localStorageService.set("credentials", credentials);
-						
-						$rootScope.authenticatedUser = username;
+
+						$rootScope.$broadcast("otpAppAuthSuccess", username, credentials);
 					}
-					defered.resolve(result);
+					return result;
 				}, function(error) {
-					defered.reject(error);
+					$rootScope.$broadcast("otpAppAuthFailed");
+					return error;
 				});
 
-				return defered.promise;
+
 			},
 			isAuthenticated : function() {
 				var authenticatedUser = localStorageService.get("authenticatedUser");
@@ -46,8 +46,8 @@ otpApp.service("AuthenticationManager", ["$http", "$rootScope", "localStorageSer
 				localStorageService.remove("authenticatedUser");
 				
 				localStorageService.remove("credentials");
-						
-				$rootScope.authenticatedUser = null;
+
+				$rootScope.$broadcast("otpAppAuthCleared");
 			}
 		}
 	}]);
