@@ -58,7 +58,7 @@ otpApp.service("User", [ "$http", "otpAppConfig",
 		return {
 			register : function(emailId, username, password) {
 				return $http({
-					url : otpAppConfig.otpAppConfig.basePath + "users",
+					url : otpAppConfig.basePath + "users",
 					method : "POST",
 					data : {
 						username : username,
