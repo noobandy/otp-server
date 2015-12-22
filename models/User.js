@@ -29,7 +29,7 @@ var UserSchema = mongoose.Schema({
 });
 
 UserSchema.statics.findByUsername = function(username, cb) {
-	this.findOne({"username" : username}).select("-password").exec( function(err, user) {
+	this.findOne({"username" : username}).select("-password -emailIdVerificationKey -passwordResetKey").exec( function(err, user) {
 
 		if(err) return cb(err);
 
@@ -67,28 +67,37 @@ UserSchema.methods.changePassword = function(oldPassword, newPassword, cb) {
 };
 
 UserSchema.methods.resetPassword = function(passwordResetKey, newPassword, cb) {
-	if(this.passwordResetKey && this.passwordResetKey === passwordResetKey) {
-		this.password = newPassword;
-		this.save(function(err, user) {
-			if(err) return cb(err);
+	User.findOne({"username" : this.username}).exec(function(err, user) {
+		if(err) return cb(err);
 
-			return cb(null, true);
-		});
-	} else {
-		return cb(null, false);
-	}
+		if(user.passwordResetKey && user.passwordResetKey === passwordResetKey) {
+			user.password = newPassword;
+			user.save(function(err, user) {
+				if(err) return cb(err);
+
+				return cb(null, true);
+			});
+		} else {
+			return cb(null, false);
+		}
+	});
 };
 
 UserSchema.methods.verifyEmailId = function(emailIdVerificationKey, cb) {
-	if(!this.emailIdVerified && this.emailIdVerificationKey === emailIdVerificationKey) {
-		this.emailIdVerified = true;
-		this.save(function(err, user) {
-			if(err) return cb(err);
-			return cb(null, true);
-		});
-	} else {
-		return cb(null, false);
-	}
+	User.findOne({"username" : this.username}).exec(function(err, user) {
+		if(err) return cb(err);
+
+		if(!user.emailIdVerified && user.emailIdVerificationKey === emailIdVerificationKey) {
+			user.emailIdVerified = true;
+			user.save(function(err, user) {
+				if(err) return cb(err);
+				return cb(null, true);
+			});
+		} else {
+			return cb(null, false);
+		}
+	});
+
 };
 
 var User = mongoose.model("User", UserSchema);

@@ -22,7 +22,7 @@
 	"OtpApp.resetPassword" : "Reset Password",
 	"OtpApp.footer" : "Copyright &copy; 2015 Maharashtra Knowledge Corporation Limited. All Rights Reserved.",
 	"OtpApp.Help.username" : "Username must be at least 6 characters long",
-	"OtpApp.Help.password" : "Password must be at least 8 characters long and must include at one number, one uppercase letter, one special symbol",
+	"OtpApp.Help.password" : "Password must be at least 8 characters long",
 	"OtpApp.Help.repeatPassword" : "must be same as password.",
 	"OtpApp.Help.emailId" : "Must be a valid email id",
 	"OtpApp.Help.oldPassword" : "Your old password",

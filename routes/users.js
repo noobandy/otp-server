@@ -69,9 +69,9 @@ router.post("/users/:username/forgotpassword", function(req, res, next) {
 
 	User.findByUsername(username, function(err, user) {
 		if(err) return next(err);
-		user.passwordResetKey = randomKeyGenerator(32);
+		user.passwordResetKey = randomKeyGenerator(16);
 		
-		emailHelper.sendPasswordResetEmail(username, key);
+		emailHelper.sendPasswordResetEmail(username, user.passwordResetKey );
 
 		user.save(function(err, user) {
 			if(err) return next(err);
@@ -89,7 +89,7 @@ router.post("/users/:username/resetpassword", function(req, res, next) {
 
 	User.findByUsername(username, function(err, user) {
 		if(err) return next(err);
-		user.resetPasword(key, newPassword, function(err, changed) {
+		user.resetPassword(key, newPassword, function(err, changed) {
 			if(err) return next(err);
 
 			res.json({success : changed});

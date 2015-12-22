@@ -80,19 +80,52 @@ otpApp.controller("ContactController", ["$scope",
 
 	}]);
 
-otpApp.controller("VerifyEmailController", ["$scope","verified","$state",
+otpApp.controller("VerifyEmailController", ["$scope", "verified", "$state",
 	function($scope, verified, $state) {
 		$state.go("home");
 	}]);
 
-otpApp.controller("ForgotPasswordController", ["$scope", 
-	function($scope) {
+otpApp.controller("ForgotPasswordController", ["$scope", "User",
+	function($scope, User) {
+		$scope.username = "";
 
+		$scope.alerts = [];
+
+		$scope.sendPasswordResetLink = function() {
+			User.sendPasswordResetLink($scope.username).then(function(result) {
+				if(result.data.success) {
+					$scope.alerts.unshift({type : "success", message : "Follow password reset instructions send to your registered email."});
+				} else {
+					$scope.alerts.unshift({type : "danger", message : "User not found"});
+				}
+			}, function(error) {
+				$scope.alerts.unshift({type : "danger", message : "request failed please try later"});
+			})
+		}
 	}]);
 
-otpApp.controller("ResetPasswordController", ["$scope", 
-	function($scope) {
+otpApp.controller("ResetPasswordController", ["$scope", "$stateParams", "User",
+	function($scope, $stateParams, User) {
+		$scope.resetPasswordModel = {
+			password : "",
+			repeatPassword : ""
+		};
 
+		$scope.alerts = [];
+
+		$scope.resetPassword = function() {
+			User.resetPassword($stateParams.username, $stateParams.key,
+				$scope.resetPasswordModel.password).then(function(result) {
+				if(result.data.success) {
+					$scope.alerts.unshift({type : "success", message : "Password Changed Successfully. Login using new password."});
+
+				} else {
+					$scope.alerts.unshift({type : "danger", message : "User not found"});
+				}
+			}, function(error) {
+				$scope.alerts.unshift({type : "danger", message : "request failed please try later"});
+			});
+		};
 	}]);
 
 
@@ -107,16 +140,18 @@ otpApp.controller("ChangePasswordController", ["$scope", "$rootScope", "User", "
 			};
 		}
 
+		$scope.alerts = [];
+
 		$scope.passwordChangeModel = newPasswordChangeModel();
 
 		$scope.changePassword = function() {
 			User.changePassword($rootScope.authenticatedUser, $scope.passwordChangeModel.oldPassword , $scope.passwordChangeModel.password).then(function(result) {
 				if(result.data.success) {
-					$scope.passwordChangeModel = newPasswordChangeModel();
+					$scope.alerts.unshift({type : "success", message : "Password Changed Successfully. Login using new password."});
 
 					AuthenticationManager.logout();
 
-					$state.go("dashboard");
+					$state.go("home");
 
 				} else {
 					$scope.passwordChangeModel.wrongCredentials = true;
