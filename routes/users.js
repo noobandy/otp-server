@@ -16,7 +16,7 @@ router.post('/users', function(req, res, next) {
 	user.save(function(err, user) {
 		if(err) return next(err);
 		emailHelper.sendVerificationEmail(user.username, user.emailIdVerificationKey);
-		res.json(user);
+		res.json({success : true});
 	});
 });
 
