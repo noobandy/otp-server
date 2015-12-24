@@ -92,8 +92,4 @@ app.use(function(err, req, res, next) {
     }
 });
 
-var dbConfig = require(path.join(__dirname, "./config/db"))(app);
-
-dbConfig.init();
-
 module.exports = app;

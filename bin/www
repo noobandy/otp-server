@@ -7,6 +7,13 @@
 var app = require('../app');
 var debug = require('debug')('otpserver:server');
 var http = require('http');
+var path = require("path");
+var config = require("config");
+var db = require(path.join(__dirname, "../db/db.js"));
+
+//connect with db
+
+db.connect(config.get("dbConfig"));
 
 /**
  * Get port from environment and store in Express.
