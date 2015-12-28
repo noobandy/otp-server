@@ -15,7 +15,7 @@ router.post('/users', function(req, res, next) {
 
 	user.save(function(err, user) {
 		if(err) return next(err);
-		emailHelper.sendVerificationEmail(user.username, user.emailIdVerificationKey);
+		emailHelper.sendVerificationEmail(user.emailId, user.username, user.emailIdVerificationKey);
 		res.json({success : true});
 	});
 });
@@ -71,7 +71,7 @@ router.post("/users/:username/forgotpassword", function(req, res, next) {
 		if(err) return next(err);
 		user.passwordResetKey = randomKeyGenerator(16);
 		
-		emailHelper.sendPasswordResetEmail(username, user.passwordResetKey );
+		emailHelper.sendPasswordResetEmail(user.emailId, username, user.passwordResetKey );
 
 		user.save(function(err, user) {
 			if(err) return next(err);
@@ -94,19 +94,6 @@ router.post("/users/:username/resetpassword", function(req, res, next) {
 
 			res.json({success : changed});
 
-		});
-	});
-});
-
-router.get('/users/:username/verifyemail', function(req, res, next) {
-	var username = req.params.username;
-	var key = req.body.key;
-
-	User.findByUsername(username, function(err, user) {
-		if(err) return next(err);
-		user.verifyEmailId(key, function(err, verified) {
-			if(err) return next(err);
-			res.json({success : emailIdVerified});
 		});
 	});
 });

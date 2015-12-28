@@ -80,11 +80,6 @@ otpApp.controller("ContactController", ["$scope",
 
 	}]);
 
-otpApp.controller("VerifyEmailController", ["$scope", "verified", "$state",
-	function($scope, verified, $state) {
-		$state.go("home");
-	}]);
-
 otpApp.controller("ForgotPasswordController", ["$scope", "User",
 	function($scope, User) {
 		$scope.username = "";
