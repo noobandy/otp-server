@@ -39,8 +39,9 @@ otpApp.controller("NavbarController",["$scope", "AuthenticationManager", "$state
 	}]);
 
 
-otpApp.controller("HomeController",["$scope", "User",
-	function($scope, User) {
+otpApp.controller("HomeController",["$scope", "User", "$state",
+	function($scope, User, $state) {
+        $scope.alerts = [];
 
 		function newRegistrationModel() {
 			return {
@@ -58,11 +59,13 @@ otpApp.controller("HomeController",["$scope", "User",
 			User.register($scope.registrationModel.emailId, $scope.registrationModel.username, 
 				$scope.registrationModel.password).
 			then(function(data) {
-				
-				$scope.registrationModel = newRegistrationModel();
+
+                $scope.alerts.unshift({type : "success",
+                    message : "User registered successfully. Check your mail for further instructions"});
 				
 			}, function(error) {
-				console.log(error);
+                $scope.alerts.unshift({type : "danger",
+                    message : "User registration failed. Please retry after sometime"});
 			});
 		};
 	}]);

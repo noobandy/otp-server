@@ -4,6 +4,7 @@
 	</div>
 
 	<div class="col-md-5">
+		<uib-alert data-ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.message}}</uib-alert>
 		<form novalidate name="registrationForm" data-ng-submit="registrationForm.$valid && regisetr()" class="form-horizontal">
 			<fieldset>
 				<legend data-translate="OtpApp.createAccount"></legend>
