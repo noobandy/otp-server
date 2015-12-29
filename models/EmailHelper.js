@@ -10,25 +10,25 @@ var transporter = nodeMailer.createTransport(smtpPool(config.get("smtpConfig")))
 var activationMailTemplate = jade.compileFile(path.join(__dirname, "../email-templates/activation/index.jade"));
 var passwordResetMailTemplate = jade.compileFile(path.join(__dirname, "../email-templates/password-reset/index.jade"));
 
-var sendVerificationEmail = function(emailId, username, key) {
+var sendVerificationEmail = function(emailId, username, key, cb) {
     var activationLink = config.get("basePath") + "/verifyemail/"+username+"/"+key;
     var html = activationMailTemplate({username : username, activationLink : activationLink });
     transporter.sendMail({
         to: emailId,
         subject: "Account Activation",
         html: html
-    });
+    },cb);
 };
 
 
-var sendPasswordResetEmail = function(emailId, username, key) {
+var sendPasswordResetEmail = function(emailId, username, key, cb) {
     var passwordResetLink = config.get("basePath") + "/resetpassword/"+username+"/"+key;
     var html = passwordResetMailTemplate({username : username, passwordResetLink : passwordResetLink });
     transporter.sendMail({
         to: emailId,
         subject: "Password Reset",
         html: html
-    });
+    }, cb);
 };
 
 module.exports = {

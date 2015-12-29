@@ -4,7 +4,20 @@ var UserSchema = mongoose.Schema({
     username : {
         type : String,
         required : true,
-        match : /[a-zA-Z0-9_]{6,}/
+        match : /[a-zA-Z0-9_]{6,}/,
+        validate : [{
+            validator : function(value, respond) {
+                User.findByUsername(value, function(err, user) {
+                   if(err) return respond(false);
+                    if(user !== null) {
+                        respond(false);
+                    } else {
+                        respond(true);
+                    }
+                });
+            },
+            msg : "{PATH} {VALUE} not available"
+        }]
     },
     password : {
         type : String,
