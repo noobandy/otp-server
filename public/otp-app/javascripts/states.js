@@ -39,26 +39,10 @@ angular.module("otpApp").config(["$stateProvider", "$urlRouterProvider",
 			secure : false
 		}
 	}).state({
-		name : "reset password",
-		url : "/resetpassword/:username/:key",
-		templateUrl : "/public/otp-app/templates/resetpassword.html",
-		controller : "ResetPasswordController",
-		data : {
-			secure : false
-		}
-	}).state({
 		name : "change password",
 		url : "/changepassword",
 		templateUrl : "/public/otp-app/templates/changepassword.html",
 		controller : "ChangePasswordController",
-		data : {
-			secure : true
-		}
-	}).state({
-		name : "dashboard",
-		url : "/dashboard",
-		templateUrl : "/public/otp-app/templates/dashboard.html",
-		controller : "DashboardController",
 		data : {
 			secure : true
 		}

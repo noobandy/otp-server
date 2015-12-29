@@ -82,21 +82,5 @@ router.post("/users/:username/forgotpassword", function(req, res, next) {
 	});
 });
 
-router.post("/users/:username/resetpassword", function(req, res, next) {
-	var username = req.params.username;
-	var key = req.body.key;
-	var newPassword = req.body.newPassword;
-
-	User.findByUsername(username, function(err, user) {
-		if(err) return next(err);
-		user.resetPassword(key, newPassword, function(err, changed) {
-			if(err) return next(err);
-
-			res.json({success : changed});
-
-		});
-	});
-});
-
 
 module.exports = router;

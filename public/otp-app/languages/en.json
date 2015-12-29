@@ -18,7 +18,7 @@
 	"OtpApp.phone" : "Phone",
 	"OtpApp.contactUsMessagePlaceHolder" : "Enter your massage for us here. We will get back to you within 2 business days.",
 	"OtpApp.createAccount" : "Create Account",
-	"OtpApp.forgotPassword" : "Forgot Password",
+	"OtpApp.forgotPassword" : "Forgot Password?",
 	"OtpApp.resetPassword" : "Reset Password",
 	"OtpApp.footer" : "Copyright &copy; 2015 Maharashtra Knowledge Corporation Limited. All Rights Reserved.",
 	"OtpApp.Help.username" : "Username must be at least 6 characters long",

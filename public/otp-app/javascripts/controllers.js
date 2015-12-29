@@ -23,7 +23,7 @@ otpApp.controller("NavbarController",["$scope", "AuthenticationManager", "$state
 					
 					$scope.loginModel = newLoginModel();
 
-					$state.go("dashboard");
+					$state.go("projects");
 
 				}, function(error) {
 					$scope.loginModel.wrongCredentials = true;
@@ -102,31 +102,6 @@ otpApp.controller("ForgotPasswordController", ["$scope", "User",
 		}
 	}]);
 
-otpApp.controller("ResetPasswordController", ["$scope", "$stateParams", "User",
-	function($scope, $stateParams, User) {
-		$scope.resetPasswordModel = {
-			password : "",
-			repeatPassword : ""
-		};
-
-		$scope.alerts = [];
-
-		$scope.resetPassword = function() {
-			User.resetPassword($stateParams.username, $stateParams.key,
-				$scope.resetPasswordModel.password).then(function(result) {
-				if(result.data.success) {
-					$scope.alerts.unshift({type : "success", message : "Password Changed Successfully. Login using new password."});
-
-				} else {
-					$scope.alerts.unshift({type : "danger", message : "User not found"});
-				}
-			}, function(error) {
-				$scope.alerts.unshift({type : "danger", message : "request failed please try later"});
-			});
-		};
-	}]);
-
-
 otpApp.controller("ChangePasswordController", ["$scope", "$rootScope", "User", "AuthenticationManager", "$state",
 	function($scope, $rootScope, User, AuthenticationManager, $state) {
 		function newPasswordChangeModel() {
@@ -158,11 +133,6 @@ otpApp.controller("ChangePasswordController", ["$scope", "$rootScope", "User", "
 			});
 		};
 
-
-	}]);
-
-otpApp.controller("DashboardController", ["$scope",
-	function($scope) {
 
 	}]);
 
