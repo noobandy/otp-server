@@ -10,7 +10,7 @@ var UserSchema = mongoose.Schema({
                 if (this.isNew) {
                     User.findByUsername(value, function (err, user) {
                         if (err) return respond(false);
-                        
+
                         if (user !== null) {
                             return respond(false);
                         } else {
@@ -119,6 +119,10 @@ UserSchema.methods.verifyEmailId = function (emailIdVerificationKey, cb) {
         }
     });
 
+};
+
+UserSchema.methods.isAccountEnabled = function() {
+  return this.emailIdVerified;
 };
 
 var User = mongoose.model("User", UserSchema);

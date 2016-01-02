@@ -54,11 +54,16 @@ router.post("/users/:username/checkpassword", function (req, res, next) {
         if (err) return next(err);
 
         if (user !== null) {
-            user.checkPassword(req.body.password, function (err, matched) {
-                if (err) return next(err);
-                res.json({success: matched});
+            if (user.isAccountEnabled()) {
+                user.checkPassword(req.body.password, function (err, matched) {
+                    if (err) return next(err);
+                    return res.json({success: matched});
 
-            });
+                });
+            } else {
+                return res.json({success: false});
+            }
+
         } else {
             next("route");
         }
