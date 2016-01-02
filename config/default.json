@@ -1,15 +1,20 @@
 {
-  "basePath" : "http://localhost:3000",
-  "smtpConfig" : {
-    "port" : "25",
-    "host" : "192.168.10.53",
-    "secure" : false,
-    "ignoreTLS" : true,
-    "debug" : true
+  "basePath": "http://localhost:3000",
+  "smsConfig": {
+    "aid": "517170",
+    "pin": "emp@1",
+    "signature": "MYSCTY"
   },
-  "dbConfig" : {
-    "url" : "mongodb://localhost/otp-server-development",
-    "options" : {}
+  "smtpConfig": {
+    "port": "25",
+    "host": "192.168.10.53",
+    "secure": false,
+    "ignoreTLS": true,
+    "debug": true
+  },
+  "dbConfig": {
+    "url": "mongodb://localhost/otp-server-development",
+    "options": {
+    }
   }
-
 }
