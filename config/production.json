@@ -1,0 +1,8 @@
+{
+  "basePath": "http://192.168.20.83:3000",
+  "dbConfig": {
+    "url": "mongodb://localhost/otp-server-production",
+    "options": {
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "basePath": "http://localhost:3000",
+  "dbConfig": {
+    "url": "mongodb://localhost/otp-server-development",
+    "options": {
+    }
+  }
+}

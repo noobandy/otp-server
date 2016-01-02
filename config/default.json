@@ -11,10 +11,5 @@
     "secure": false,
     "ignoreTLS": true,
     "debug": true
-  },
-  "dbConfig": {
-    "url": "mongodb://localhost/otp-server-development",
-    "options": {
-    }
   }
 }
